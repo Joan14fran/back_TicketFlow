@@ -1,0 +1,38 @@
+.
+├── back_TicketFlow
+│   ├── asgi.py
+│   ├── __init__.py
+│   ├── __pycache__
+│   │   ├── __init__.cpython-311.pyc
+│   │   ├── settings.cpython-311.pyc
+│   │   ├── urls.cpython-311.pyc
+│   │   └── wsgi.cpython-311.pyc
+│   ├── settings.py
+│   ├── urls.py
+│   └── wsgi.py
+├── db.sqlite3
+├── Dockerfile
+├── estructura.txt
+├── manage.py
+├── requirements.txt
+└── tickets
+    ├── admin.py
+    ├── apps.py
+    ├── __init__.py
+    ├── migrations
+    │   ├── __init__.py
+    │   └── __pycache__
+    │       └── __init__.cpython-311.pyc
+    ├── models.py
+    ├── __pycache__
+    │   ├── admin.cpython-311.pyc
+    │   ├── apps.cpython-311.pyc
+    │   ├── __init__.cpython-311.pyc
+    │   ├── models.cpython-311.pyc
+    │   ├── urls.cpython-311.pyc
+    │   └── views.cpython-311.pyc
+    ├── tests.py
+    ├── urls.py
+    └── views.py
+
+7 directories, 29 files
