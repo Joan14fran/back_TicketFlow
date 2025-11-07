@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import RegisterView
-from rest_framework.authtoken.views import obtain_auth_token # Vista de Login de DRF
+from rest_framework.authtoken.views import obtain_auth_token
 
 app_name = 'users'
 
