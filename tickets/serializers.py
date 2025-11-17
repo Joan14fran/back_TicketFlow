@@ -17,15 +17,20 @@ class CommentSerializer(serializers.ModelSerializer):
     user = serializers.StringRelatedField(read_only=True)
     user_id = serializers.PrimaryKeyRelatedField(source='user', read_only=True)
     user_role = serializers.CharField(source='user.role', read_only=True)
+    
+    content = serializers.CharField(write_only=True)
 
     class Meta:
         model = Comment
         fields = ('id', 'user', 'user_id', 'user_role', 'content', 'created_at')
         read_only_fields = ('id', 'user', 'user_id', 'user_role', 'created_at')
+        extra_kwargs = {
+            'content': {'write_only': False} 
+        }
 
 class TicketSerializer(serializers.ModelSerializer):
     """
-    Serializador principal para Tickets.
+    Serializador principal para Tickets (para ver DETALLES).
     Maneja la lógica de lectura y escritura.
     """
     
@@ -65,46 +70,11 @@ class TicketSerializer(serializers.ModelSerializer):
         )
         read_only_fields = ('id', 'created_at', 'updated_at', 'created_by_id')
 
-class TicketUpdateSerializer(serializers.ModelSerializer):
-    """
-    Serializador específico para actualizaciones de tickets con comentario opcional.
-    Permite actualizar campos específicos y agregar un comentario en una sola operación.
-    """
-    comment = serializers.CharField(write_only=True, required=False, allow_blank=True,
-                                   help_text="Comentario opcional a agregar al actualizar el ticket")
-    assigned_to = serializers.PrimaryKeyRelatedField(
-        queryset=CustomUser.objects.filter(role='agent'),
-        required=False,
-        allow_null=True
-    )
-
-    class Meta:
-        model = Ticket
-        fields = ('status', 'priority', 'assigned_to', 'comment')
-        
-    def update(self, instance, validated_data):
-        """
-        Actualiza el ticket y opcionalmente crea un comentario.
-        """
-        comment_content = validated_data.pop('comment', None)
-        
-        for field, value in validated_data.items():
-            setattr(instance, field, value)
-        instance.save()
-        
-        if comment_content and self.context.get('request'):
-            Comment.objects.create(
-                ticket=instance,
-                user=self.context['request'].user,
-                content=comment_content
-            )
-        
-        return instance
 
 class TicketListSerializer(serializers.ModelSerializer):
     """
-    Serializador simplificado para listados de tickets (sin comentarios anidados).
-    Más eficiente para cuando se listan muchos tickets.
+    Serializador simplificado para LISTADOS de tickets.
+    Más eficiente (no carga todos los comentarios).
     """
     created_by = serializers.StringRelatedField(read_only=True)
     assigned_to_username = serializers.StringRelatedField(source='assigned_to', read_only=True)
