@@ -1,1 +1,20 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Base de datos de desarrollo
+db.sqlite3
+
+# Entorno virtual
+.venv/
 venv/
+env/
+
+# Archivos del sistema operativo
+.DS_Store
+Thumbs.db
+
+# Vscode
+.vscode/
